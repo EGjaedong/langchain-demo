@@ -1,19 +1,15 @@
-from llm_client import get_deepseek_client, get_deepseek_chat_model
+import os
 
-client = get_deepseek_client()
-completion = client.chat.completions.create(
+from pydantic import SecretStr
+from llm_client import get_deepseek_chat_model
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(
     model=get_deepseek_chat_model(),
-    messages=[
-        {"role": "system", "content": "你是一位数据分析师,请根据以下步骤撰写一份数据分析报告。"},
-        {"role": "user", "content": '''
-            背景:电商平台要分析用户购物行为。请完成以下任务: 
-            1.提出2~3个切入点; 
-            2.列出每个切入点要分析的指标;
-            3.假设你发现了有价值的洞见,提出2~3条可行的建议;
-            4.综合成一份完整报告。'''
-        },
-    ],
-    temperature=0.8,
+    api_key=SecretStr(os.environ["DEEPSEEK_API_KEY"]),
+    base_url=os.environ["DEEPSEEK_API_HOST"],
+    max_completion_tokens=200,
 )
 
-print(completion.choices[0].message.content)
+response = llm.invoke("请给我写一句情人节红玫瑰的中文宣传语")
+print(response.content)
