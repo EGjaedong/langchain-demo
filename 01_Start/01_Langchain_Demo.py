@@ -1,13 +1,14 @@
 import os
 
 from pydantic import SecretStr
-from llm_client import get_deepseek_chat_model
+
+from langchain_learn.llm_client import get_deepseek_chat_model, get_deepseek_api_key, get_deepseek_api_host
 from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(
     model=get_deepseek_chat_model(),
-    api_key=SecretStr(os.environ["DEEPSEEK_API_KEY"]),
-    base_url=os.environ["DEEPSEEK_API_HOST"],
+    api_key=SecretStr(get_deepseek_api_key()),
+    base_url=get_deepseek_api_host(),
     max_completion_tokens=200,
 )
 
