@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+from turtle import st
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -65,5 +66,5 @@ def get_deepseek_api_key() -> str:
 def get_deepseek_api_host() -> str:
     return os.getenv("DEEPSEEK_API_HOST") or ""
 
-
-
+def get_huggingface_api_token() -> str:
+    return os.getenv("HF_TOKEN") or ""
