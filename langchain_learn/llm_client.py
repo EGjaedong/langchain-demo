@@ -25,8 +25,8 @@ REPO_ROOT = _load_env()
 
 def get_qwen_client() -> OpenAI:
     return OpenAI(
-        api_key=os.getenv("QIANWEN_CODING_PLAN_API_KEY"),
-        base_url=os.getenv("QIANWEN_CODING_PLAN_OPENAI_API_HOST"),
+        api_key=os.getenv("QIANWEN_API_KEY"),
+        base_url=os.getenv("QIANWEN_API_HOST"),
     )
 
 
@@ -66,9 +66,4 @@ def get_deepseek_api_host() -> str:
     return os.getenv("DEEPSEEK_API_HOST") or ""
 
 
-def get_qwen_chat_model(default: str = "qwen3.6-plus") -> str:
-    return os.getenv("QIANWEN_CODING_PLAN_MODEL") or default
 
-
-def get_qianwen_api_key() -> str:
-    return os.getenv("QIANWEN_API_KEY") or os.getenv("QIANWEN_CODING_PLAN_API_KEY") or ""
