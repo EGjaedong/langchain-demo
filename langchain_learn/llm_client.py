@@ -68,3 +68,18 @@ def get_deepseek_api_host() -> str:
 
 def get_huggingface_api_token() -> str:
     return os.getenv("HF_TOKEN") or ""
+
+def get_minimax_client() -> OpenAI:
+    return OpenAI(
+        api_key=os.getenv("MINIMAX_API_KEY"),
+        base_url=os.getenv("MINIMAX_API_HOST"),
+    )
+
+def get_minimax_api_key() -> str:
+    return os.getenv("MINIMAX_API_KEY") or ""
+
+def get_minimax_chat_model(default: str = "MiniMax-M2.7") -> str:
+    return os.getenv("MINIMAX_MODEL") or default
+
+def get_minimax_api_host() -> str:
+    return os.getenv("MINIMAX_API_HOST") or ""
