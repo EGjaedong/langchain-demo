@@ -1,13 +1,13 @@
 import os
-from llm_client import get_minimax_api_key, get_minimax_chat_model, get_minimax_api_host
+from llm_client import get_deepseek_api_key, get_deepseek_chat_model, get_deepseek_api_host
 
-os.environ["OPENAI_API_KEY"] = get_minimax_api_key()
+os.environ["OPENAI_API_KEY"] = get_deepseek_api_key()
 
 # 创建chat模型
-from langchain_openai import ChatOpenAI
+from langchain_openai.chat_models import ChatOpenAI
 
 llm = ChatOpenAI(
-    model=get_minimax_chat_model(), base_url=get_minimax_api_host(), temperature=0
+    model=get_deepseek_chat_model(), base_url=get_deepseek_api_host(), temperature=0
 )
 
 # 设定AI角色和目标
