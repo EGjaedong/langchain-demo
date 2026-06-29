@@ -68,3 +68,24 @@ cp .env.example .env
 ```
 
 然后在 `.env` 中填入自己的 API Key 和模型配置。真实的 `.env` 文件包含敏感信息，不应该提交到 Git。
+
+## 代码规范
+
+示例脚本统一遵循以下约定：
+
+- **LLM 客户端**：从 `langchain_learn.llm_client` 导入
+- **ChatOpenAI 创建**：使用工厂函数，不手动设置 `os.environ["OPENAI_API_KEY"]`
+  - DeepSeek：`create_deepseek_chat(temperature=0)`
+  - 火山引擎：`create_volcano_chat()`
+- **HuggingFace Token**：调用 `configure_huggingface_token()`，不直接写环境变量
+- **OpenAI SDK 直连**：使用 `get_deepseek_client()` 等已有 helper
+
+示例：
+
+```python
+from langchain_learn.llm_client import create_deepseek_chat
+
+llm = create_deepseek_chat(max_completion_tokens=200, temperature=0)
+response = llm.invoke("请给我的花店起个名")
+print(response.content)
+```

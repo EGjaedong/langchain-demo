@@ -1,12 +1,14 @@
+import logging
 import os
-from llm_client import get_deepseek_api_key
 
-os.environ["OPENAI_API_KEY"] = get_deepseek_api_key()
-
-# 1. Load 导入Document Loaders
+from langchain_classic.chains import RetrievalQA  # RetrievalQA链，已经过时，后面写个新的
+from langchain_classic.retrievers.multi_query import MultiQueryRetriever
 from langchain_community.document_loaders import Docx2txtLoader, PyPDFLoader, TextLoader
 from langchain_community.embeddings import DashScopeEmbeddings
 from langchain_qdrant import QdrantVectorStore
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+from langchain_learn.llm_client import create_deepseek_chat
 
 # 加载Documents（相对脚本目录，不依赖当前工作目录）
 print("[1/5] Loading documents...")
@@ -32,7 +34,6 @@ if documents:
 # 2. Split 将Documents切分成块以便后续进行嵌入和向量存储
 print("[2/5] Splitting documents...")
 
-from langchain_text_splitters import RecursiveCharacterTextSplitter
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=200,
     chunk_overlap=10,
@@ -55,12 +56,6 @@ vectorstore = QdrantVectorStore.from_documents(
 print("[3/5] Vector store ready")
 
 # 4. Retrieval 准备模型和Retrieval链
-import logging
-from langchain_openai.chat_models import ChatOpenAI
-from langchain_classic.retrievers.multi_query import MultiQueryRetriever
-from langchain_classic.chains import RetrievalQA # RetrievalQA链，已经过时，后面写个新的
-
-# 设置日志
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -70,13 +65,9 @@ logging.getLogger('langchain_classic.retrievers.multi_query').setLevel(logging.I
 logger = logging.getLogger(__name__)
 logger.info("[4/5] Building LLM, retriever, and RetrievalQA chain...")
 
-# 实例化一个model
-from langchain_learn.llm_client import get_deepseek_chat_model, get_deepseek_api_host
-llm = ChatOpenAI(
-    model = get_deepseek_chat_model(),
-    base_url = get_deepseek_api_host(),
-    max_completion_tokens = 60,
-    temperature = 0,
+llm = create_deepseek_chat(
+    max_completion_tokens=60,
+    temperature=0,
 )
 
 # 实例化一个MultiQueryRetriever

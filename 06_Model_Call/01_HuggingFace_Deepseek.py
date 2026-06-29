@@ -1,8 +1,6 @@
-import os
+from langchain_learn.llm_client import configure_huggingface_token
 
-from llm_client import get_huggingface_api_token
-
-os.environ["HUGGINGFACEHUB_API_TOKEN"] = get_huggingface_api_token()
+configure_huggingface_token()
 
 from transformers import AutoTokenizer, AutoModelForCausalLM
 

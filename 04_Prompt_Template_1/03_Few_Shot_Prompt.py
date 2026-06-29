@@ -47,11 +47,9 @@ print("-" * 20)
 
 # 4. 把提示传递给大模型
 print("**** Chat with LLM using FewShotPromptTemplate ****")
-import os
-from llm_client import get_deepseek_api_key, get_deepseek_chat_model, get_deepseek_api_host
-os.environ["OPENAI_API_KEY"] = get_deepseek_api_key()
-from langchain_openai.chat_models import ChatOpenAI
-chat = ChatOpenAI(model=get_deepseek_chat_model(), base_url=get_deepseek_api_host())
+from langchain_learn.llm_client import create_deepseek_chat
+
+chat = create_deepseek_chat()
 result = chat.invoke(few_shot_prompt_template.format(flower_type="野玫瑰", occasion="爱情"))
 print(result.content)
 print("-" * 20)
