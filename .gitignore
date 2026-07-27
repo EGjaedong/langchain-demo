@@ -33,3 +33,5 @@ dist/
 *.egg-info/
 
 .codegraph/
+
+.node_modules/
