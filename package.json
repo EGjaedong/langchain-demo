@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@oh-my-pi/swarm-extension": "^13.17.0"
+  }
+}
